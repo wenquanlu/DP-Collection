@@ -1,5 +1,6 @@
 import sys
 """
+Given an array, find the max sum of a subarray
 local_max = max(A[i], A[i] + local_max)
 """
 def max_sum_subarray(array):
