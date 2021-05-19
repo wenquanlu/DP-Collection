@@ -8,6 +8,8 @@
 S: benefits of n items
 W: weight of n items
 """
+
+# returns a binary list, 1: included, 0: not included
 def knapsack(S, W, max_weight):
     B = [[None for x in range(max_weight)] for y in range(len(W) + 1)]
     for i in range(max_weight):
@@ -19,10 +21,6 @@ def knapsack(S, W, max_weight):
                 B[row][w] = B[row - 1][w]
             else:
                 B[row][w] = max(B[row - 1][w], B[row-1][w - W[k]] + S[k])
-    for i in range(len(B)):
-        for j in range(len(B[0])):
-            print("{} ".format(B[i][j]), end="")
-        print()
     bit_result = [0 for x in range(len(W))]
     start_col = max_weight - 1
     start_row = len(W)
@@ -39,6 +37,41 @@ def knapsack(S, W, max_weight):
             start_row -= 1
     return bit_result
 
+
+# return max benefit achievable
+def knapsack_max(S, W, max_weight):
+    B = [[None for x in range(max_weight)] for y in range(len(W) + 1)]
+    for i in range(max_weight):
+        B[0][i] = 0
+    for row in range(1, len(W) + 1):
+        for w in range(max_weight):
+            k = row - 1
+            if W[k] > w:
+                B[row][w] = B[row - 1][w]
+            else:
+                B[row][w] = max(B[row - 1][w], B[row-1][w - W[k]] + S[k])
+    start_col = max_weight - 1
+    start_row = len(W)
+    max_profit = B[start_row][start_col]
+    return max_profit
+
+
+# showcase the table used in DP algorithm
+def knapsack_table(S, W, max_weight):
+    B = [[None for x in range(max_weight)] for y in range(len(W) + 1)]
+    for i in range(max_weight):
+        B[0][i] = 0
+    for row in range(1, len(W) + 1):
+        for w in range(max_weight):
+            k = row - 1
+            if W[k] > w:
+                B[row][w] = B[row - 1][w]
+            else:
+                B[row][w] = max(B[row - 1][w], B[row-1][w - W[k]] + S[k])
+    for i in range(len(B)):
+        for j in range(len(B[0])):
+            print("{} ".format(B[i][j]), end="")
+        print()
 """
 S = [4, 3, 1, 4, 5]
 W = [2, 1, 4, 3, 8]
